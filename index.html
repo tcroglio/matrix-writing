@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Efeito Matrix</title>
+</head>
+
+<body>
+    <div class="canva">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <main>
+        <div class="conteudo">
+            <h1>Matrix Writing</h1>
+            <div class="square">
+                <pre id="content"></pre>
+            </div>
+    
+            <div class="input-container">
+                <input type="text" id="userInput" placeholder="Digite algo...">
+                <button onclick="testInput()">Testar</button>
+            </div>
+
+        </div>
+    </main>
+
+    <script type="text/javascript">
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+
+        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth;
+
+        var texts = '0123456789'.split('');
+        var fontSize = 16;
+        var columns = canvas.width / fontSize;
+        var drops = [];
+        for (var x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0,0,0,0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px arial';
+            for (var i = 0; i < drops.length; i++) {
+                var text = texts[Math.floor(Math.random() * texts.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height || Math.random() > 0.95) {
+                    drops[i] = 0;
+                }
+
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 33);
+
+        function testInput() {
+            var userInput = document.getElementById('userInput').value;
+            updateHW(userInput);
+        }
+
+        function updateHW(newHW) {
+            const HW = newHW;
+
+            document.getElementById('content').textContent = '';
+            let alfabeto = "abcdefghijklmnopqrstuvwxyz ";
+            let arrayHW = HW.split('');
+            let flag = true;
+            let stringConstruida = "";
+            let i = 0;
+
+            function letraAleatoria(str) {
+                let randomIndex = Math.floor(Math.random() * str.length);
+                return str.charAt(randomIndex);
+            }
+
+            function processar() {
+                let letraAtual = letraAleatoria(alfabeto);
+                stringConstruida += letraAtual;
+
+                console.log(stringConstruida);
+                let contentDiv = document.getElementById('content');
+                contentDiv.textContent += stringConstruida + '\n';
+
+                contentDiv.scrollTop = contentDiv.scrollHeight;
+
+                if (letraAtual == arrayHW[i]) {
+                    i++;
+
+                    if (i == arrayHW.length) {
+                        flag = false;
+                    }
+
+                } else {
+                    stringConstruida = stringConstruida.slice(0, -1);
+                }
+
+                if (flag) {
+                    setTimeout(processar, 10);
+                }
+            }
+
+            processar();
+        }
+    </script>
+
+</body>
+
+</html>
