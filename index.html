@@ -69,10 +69,10 @@
         }
 
         function updateHW(newHW) {
-            const HW = newHW.toLowerCase();
+            const HW = newHW;
 
             document.getElementById('content').textContent = '';
-            let alfabeto = "abcdefghijklmnopqrstuvwxyz ";
+            const alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:',.<>?/`~";
             let arrayHW = HW.split('');
             let flag = true;
             let stringConstruida = "";
